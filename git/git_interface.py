@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import asyncio
 
 
 class GitInterface(ABC):
@@ -7,34 +6,37 @@ class GitInterface(ABC):
     Abstract base class for interacting with a Git repository.
 
     This class defines the interface for performing common Git operations such as cloning, 
-    pulling, committing, pushing, and retrieving file content and history.
+    pulling, committing, pushing, and retrieving file content and history against a remote repository.
 
-    Concrete implementations of this class should provide the actual implementation 
+    Concrete implementations of this class should provide the actual implementation
     for these operations.
 
     Attributes:
-        None
+        remote_url (str): The URL of the remote Git repository.
+        local_directory (str): The local directory where the repository is or will be cloned.
+        auth: Authentication credentials or tokens for accessing the remote repository.
+        config: Additional configuration settings.
     """
-    def __init__(self, directory, auth=None, config=None):
+
+    def __init__(self, remote_url, local_directory, auth=None, config=None):
         """
-        Initialize the Git repository interface.
+        Initialize the Git repository interface with remote repository details.
 
         Args:
-            directory (str): The directory of the Git repository.
-            auth: Authentication credentials or tokens.
+            remote_url (str): The URL of the remote Git repository.
+            local_directory (str): The local directory where the repository is or will be cloned.
+            auth: Authentication credentials or tokens for accessing the remote repository.
             config: Additional configuration settings.
         """
-        self.directory = directory
+        self.remote_url = remote_url
+        self.local_directory = local_directory
         self.auth = auth
         self.config = config
 
     @abstractmethod
-    async def clone(self, url):
+    async def clone(self):
         """
-        Clone a remote Git repository to the specified directory.
-
-        Args:
-            url (str): The URL of the remote Git repository.
+        Clone a remote Git repository to its local directory.
 
         Returns:
             bool: True if the clone was successful, False otherwise.
@@ -179,4 +181,3 @@ class GitInterface(ABC):
             str: The status of the Git repository.
         """
         pass
-
