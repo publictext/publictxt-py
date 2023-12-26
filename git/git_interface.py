@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import asyncio
 
 
 class GitInterface(ABC):
@@ -28,7 +29,7 @@ class GitInterface(ABC):
         self.config = config
 
     @abstractmethod
-    def clone(self, url):
+    async def clone(self, url):
         """
         Clone a remote Git repository to the specified directory.
 
@@ -160,7 +161,7 @@ class GitInterface(ABC):
         pass
 
     @abstractmethod
-    def fetch(self):
+    async def fetch(self):
         """
         Fetch the latest changes from the remote Git repository.
 
